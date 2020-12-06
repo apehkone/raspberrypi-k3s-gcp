@@ -12,10 +12,10 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 # Use `install_packages` if you need to install dependencies
 RUN pip install -U pip && \
-    pip install --upgrade pip && \
     pip install -U wheel && \
     pip install -U numpy && \
-    pip install -U pillow
+    pip install -U pillow && \
+    pip install -U sense-hat
 
 # RTIMU library fix
 RUN git clone https://github.com/RPi-Distro/RTIMULib/ RTIMU
