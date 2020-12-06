@@ -1,29 +1,27 @@
+import os
+import json
+from datetime import datetime
 from sense_hat import SenseHat
+from time import sleep
+from google.cloud import pubsub_v1
 
-s = SenseHat()
-s.low_light = True
+sense = SenseHat()
 
-green = (0, 150, 57)
-dark_green = (0, 255, 0)
-nothing = (0, 0, 0)
+project_id = os.getenv('GOOGLE_CLOUD_PROJECT')
+topic_id = os.getenv('GOOGLE_CLOUD_TOPIC_ID')
+device_id = os.getenv('DEVICE_ID')
 
-
-def nortal():
-    G = green
-    DG = dark_green
-    O = nothing
-    logo = [
-        DG, G, O, O, O, G, DG, G,
-        DG, G, DG, O, O, G, DG, G,
-        DG, G, DG, G, O, G, DG, G,
-        DG, G, DG, G, DG, G, DG, G,
-        DG, G, DG, G, DG, G, DG, G,
-        DG, G, DG, O, DG, G, DG, G,
-        DG, G, DG, O, O, G, DG, G,
-        DG, G, DG, O, O, O, DG, G,
-    ]
-    return logo
-
+publisher = pubsub_v1.PublisherClient()
+topic_path = publisher.topic_path(project_id, topic_id)
 
 while True:
-    s.set_pixels(nortal())
+    temperature = sense.get_temperature()
+
+    event = {
+        'created_at': datetime.now(),
+        'device': device_id,
+        'temperature': temperature
+    }
+
+    future = publisher.publish(topic_path, json.dumps(event))
+    sleep(15)
