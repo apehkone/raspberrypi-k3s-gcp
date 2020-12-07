@@ -24,4 +24,4 @@ while True:
     }
 
     future = publisher.publish(topic_path, json.dumps(event, default=str).encode('utf-8'))
-    sleep(15)
+    sleep(7200)
