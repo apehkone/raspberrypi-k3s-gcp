@@ -15,18 +15,14 @@ topic_path = publisher.topic_path(project_id, topic_id)
 sense = SenseHat()
 
 while True:
-    temp = sense.get_temperature()
-    t = os.popen('/opt/vc/bin/vcgencmd measure_temp')
-    cputemp = t.read()
-    cputemp = cputemp.replace('temp=','')
-    cputemp = cputemp.replace('\'C\n','')
-    cputemp = float(cputemp)
-    temperature = temp - ((cputemp - temp) / 2)
-
     event = {
         'measured_at': datetime.utcnow().isoformat(),
         'device': device_id,
-        'temperature': temperature,
+        'temperature': sense.get_temperature(),
+        'humidity': sense.get_humidity(),
+        'temp_humidity': sense.get_temperature_from_humidity(),
+        'pressure': sense.get_pressure(),
+        'temp_pressure': sense.get_temperature_from_pressure()
     }
 
     payload = json.dumps(event, default=str).encode('utf-8')
