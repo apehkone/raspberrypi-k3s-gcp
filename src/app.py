@@ -23,5 +23,5 @@ while True:
         'temperature': temperature
     }
 
-    future = publisher.publish(topic_path, json.dumps(event, default=str))
+    future = publisher.publish(topic_path, json.dumps(event, default=str).encode('utf-8'))
     sleep(15)
