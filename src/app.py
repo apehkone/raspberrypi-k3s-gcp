@@ -18,7 +18,7 @@ while True:
     temperature = sense.get_temperature()
 
     event = {
-        'created_at': datetime.now(),
+        'measured_at': datetime.datetime.utcnow().isoformat(),
         'device': device_id,
         'temperature': temperature
     }
