@@ -27,7 +27,7 @@ spec:
         app: k3s-temperature
     spec:
       containers:
-        - image: ghcr.io/apehkone/raspberrypi-k3s-temperature:latest
+        - image: ghcr.io/apehkone/raspberrypi-k3s-gcp/k3s-gcp-temperature:latest
           name: k3s-temperature
           securityContext:
             privileged: true
